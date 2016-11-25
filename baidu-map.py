@@ -29,12 +29,15 @@ def main(args):
 
         if result['status'] == 0:
             for i in result['results']:
+                name    = i.get('name', '搜索不到结果')
+                address = i.get('address', '')
+
                 if urllib.quote('到') in query or urllib.quote('去') in query:
                     map_url = '%s/search?query=%s&region=%s&referer=alfredapp&output=html' % (API_URL_BASE, query, region)
                 else:
-                    map_url = '%s/search?query=%s&region=%s&referer=alfredapp&output=html' % (API_URL_BASE, i['name'], region)
+                    map_url = '%s/search?query=%s&region=%s&referer=alfredapp&output=html' % (API_URL_BASE, name, region)
                 
-                feeds.add_item(title=i['name'], subtitle=i['address'], valid='YES', arg=map_url, icon='icon.png')
+                feeds.add_item(title=name, subtitle=address, valid='YES', arg=map_url, icon='icon.png')
         else:
             feeds.add_item(title='内容未找到', subtitle='输入内容有误', valid='no', arg=MAP_URL_BASE, icon='icon.png')
 
