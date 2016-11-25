@@ -1,5 +1,6 @@
 Baidu Map Search
 ==============
+Version 1.1.0
 
 通过Alfred搜索百度地图的Workflow。
 
@@ -14,4 +15,9 @@ Baidu Map Search
 ![bmap search](bmap-2.png)
  
 
-安装：请装了并买了alfred2之后，双击即可。 
+安装：请安装alfred之后，买了alfred的powerpack并激活，下载workflow文件，双击安装即可。 
+
+ChangeLog
+==============
+
+- 1.1.0（2016-11-25）： 修改替换了老旧的AK；确认了V3版本alfred的支持；修复输入内容和搜索结果不匹配的bug。
