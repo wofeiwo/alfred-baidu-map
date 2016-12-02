@@ -13,10 +13,18 @@ API_URL_BASE    = 'http://api.map.baidu.com/place'
 MAP_URL_BASE    = 'http://map.baidu.com'
 
 
-def main(args):
+def init_env():
+    global CITY, AK
     if os.path.exists('city.txt'):
         CITY = file('city.txt', 'r').read().strip('\r\n \t')
 
+    if os.path.exists('akey.txt'):
+        AK = file('akey.txt', 'r').read().strip('\r\n \t')
+
+def main(args):
+    global CITY, AK, API_URL_BASE, MAP_URL_BASE
+    init_env()
+    
     region = urllib.quote(CITY)
 
     if len(args) == 2:
@@ -24,7 +32,6 @@ def main(args):
         # query = urllib.quote('天安门')
 
         result = json.load(urllib2.urlopen('%s/v2/search?&q=%s&region=%s&output=json&ak=%s' % (API_URL_BASE, query, region, AK)))
-
         feeds = Feedback()
 
         if result['status'] == 0:
