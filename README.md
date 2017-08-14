@@ -1,6 +1,7 @@
 Baidu Map Search
 ==============
-Version 1.1.1
+
+[![License](https://img.shields.io/github/license/wofeiwo/alfred-baidu-map.svg?label=License)](https://github.com/wofeiwo/alfred-baidu-map/LICENSE)[![Realse](https://img.shields.io/github/release/wofeiwo/alfred-baidu-map.svg?label=Realse)](https://github.com/wofeiwo/alfred-baidu-map/realses)
 
 通过Alfred搜索百度地图的Workflow。
 
