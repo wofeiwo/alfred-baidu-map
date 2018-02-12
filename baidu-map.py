@@ -48,7 +48,7 @@ def main(args):
         else:
             feeds.add_item(title='内容未找到', subtitle='输入内容有误', valid='no', arg=MAP_URL_BASE, icon='icon.png')
 
-        print feeds
+        print(feeds)
     return
 
 if __name__ == '__main__':

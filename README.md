@@ -3,7 +3,7 @@ Baidu Map Search
 
 [![License](https://img.shields.io/github/license/wofeiwo/alfred-baidu-map.svg?label=License)](https://github.com/wofeiwo/alfred-baidu-map/blob/master/LICENSE) [![Release](https://img.shields.io/github/release/wofeiwo/alfred-baidu-map.svg?label=Release)](https://github.com/wofeiwo/alfred-baidu-map/releases)
 
-通过Alfred搜索百度地图的Workflow。
+通过Alfred搜索百度地图的Workflow。同样欢迎使用我的另一个地图插件[高德地图alfred插件](https://github.com/wofeiwo/alfred-amap)。
 
 使用方法：
 - 首先输入"setl"+空格+城市名，设置默认搜索城市地点;
