@@ -5,51 +5,58 @@ from feedback import Feedback
 import urllib2
 import urllib
 import json
-import sys, os.path
+import sys
+import os.path
 
-AK              = '61d9c2b7e886b8f2e5bad831917b1c8d'
-CITY            = '北京'
-API_URL_BASE    = 'http://api.map.baidu.com/place'
-MAP_URL_BASE    = 'http://map.baidu.com'
+AK = '61d9c2b7e886b8f2e5bad831917b1c8d'  # 默认AK
+CITY = '北京'
+API_URL_BASE = 'http://api.map.baidu.com'
+MAP_URL_BASE = 'http://map.baidu.com'
 
 
-def init_env():
-    global CITY, AK
+def main(args):
     if os.path.exists('city.txt'):
         CITY = file('city.txt', 'r').read().strip('\r\n \t')
 
-    if os.path.exists('akey.txt'):
-        AK = file('akey.txt', 'r').read().strip('\r\n \t')
-
-def main(args):
-    global CITY, AK, API_URL_BASE, MAP_URL_BASE
-    init_env()
-    
     region = urllib.quote(CITY)
+    feeds = Feedback()
 
-    if len(args) == 2:
-        query = urllib.quote(args[1])
-        # query = urllib.quote('天安门')
+    if len(args) == 2:  # 有参数的才进行分析
+        if '到' in args[1] or '去' in args[1]:  # 调用导航的API来做操作
+            if '到' in args[1]:
+                location = args[1].split('到')
+            elif '去' in args[1]:
+                location = args[1].split('去')
 
-        result = json.load(urllib2.urlopen('%s/v2/search?&q=%s&region=%s&output=json&ak=%s' % (API_URL_BASE, query, region, AK)))
-        feeds = Feedback()
-
-        if result['status'] == 0:
-            for i in result['results']:
-                name    = i.get('name', '搜索不到结果')
-                address = i.get('address', '')
-
-                if urllib.quote('到') in query or urllib.quote('去') in query:
-                    map_url = '%s/search?query=%s&region=%s&referer=alfredapp&output=html' % (API_URL_BASE, query, region)
-                else:
-                    map_url = '%s/search?query=%s&region=%s&referer=alfredapp&output=html' % (API_URL_BASE, name, region)
-                
-                feeds.add_item(title=name, subtitle=address, valid='YES', arg=map_url, icon='icon.png')
+            map_url = '%s/direction?origin=%s&destination=%s&mode=transit&region=%s&output=html&src=alfredapp.baidumap.search' % (
+                API_URL_BASE, urllib.quote(
+                    location[0]), urllib.quote(location[1]), region)
+            feeds.add_item(title=unicode(args[1], 'utf-8'), subtitle=unicode(CITY, 'utf-8'),
+                           valid='YES', arg=map_url, icon='icon.png')
         else:
-            feeds.add_item(title='内容未找到', subtitle='输入内容有误', valid='no', arg=MAP_URL_BASE, icon='icon.png')
+            query = urllib.quote(args[1])
 
-        print(feeds)
+            result = json.load(urllib2.urlopen(
+                '%s/place/v2/search?&q=%s&region=%s&output=json&ak=%s' % (API_URL_BASE, query, region, AK)))
+
+            if result['status'] == 0:
+                for i in result['results']:
+                    name = i.get('name', '搜索不到结果')
+                    address = i.get('address', '')
+                    uid = i.get('uid', '')
+
+                    map_url = '%s/?newmap=1&s=inf%%26uid%%3D%s%%26wd%%3D%s' % (
+                        MAP_URL_BASE, uid, name)
+
+                    feeds.add_item(title=name, subtitle=address,
+                                   valid='YES', arg=map_url, icon='icon.png')
+            else:
+                feeds.add_item(title=u'内容未找到', subtitle=u'输入内容有误',
+                               valid='no', arg=MAP_URL_BASE, icon='icon.png')
+
+        print feeds  # 最终输出结果
     return
+
 
 if __name__ == '__main__':
     main(sys.argv)
