@@ -54,7 +54,7 @@ def main(args):
                 feeds.add_item(title=u'内容未找到', subtitle=u'输入内容有误',
                                valid='no', arg=MAP_URL_BASE, icon='icon.png')
 
-        print feeds  # 最终输出结果
+        print(feeds)  # 最终输出结果
     return
 
 
